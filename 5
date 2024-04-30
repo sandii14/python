@@ -1,0 +1,111 @@
+import pandas as pd
+
+# Fungsi untuk menampilkan daftar makanan
+def tampilkan_makanan(makanan_df):
+    print("Daftar Makanan:")
+    print(makanan_df)
+
+# Fungsi untuk menampilkan daftar minuman
+def tampilkan_minuman(minuman_df):
+    print("Daftar Minuman:")
+    print(minuman_df)
+
+# Membaca data dari file Excel saat program dimulai
+def baca_data():
+    try:
+        makanan_df = pd.read_excel('makanan.xlsx')
+        minuman_df = pd.read_excel('minuman.xlsx')
+    except FileNotFoundError:
+        makanan_df = pd.DataFrame(columns=['Nama Makanan', 'Harga'])
+        minuman_df = pd.DataFrame(columns=['Nama Minuman', 'Harga'])
+    return makanan_df, minuman_df
+
+# Fungsi untuk menambahkan makanan baru
+def tambah_makanan(makanan_df, nama, harga):
+    new_data = pd.DataFrame({'Nama Makanan': [nama], 'Harga': [harga]})
+    makanan_df = pd.concat([makanan_df, new_data], ignore_index=True)
+    makanan_df.to_excel('makanan.xlsx', index=False)
+    return makanan_df
+
+# Fungsi untuk menambahkan minuman baru
+def tambah_minuman(minuman_df, nama, harga):
+    new_data = pd.DataFrame({'Nama Minuman': [nama], 'Harga': [harga]})
+    minuman_df = pd.concat([minuman_df, new_data], ignore_index=True)
+    minuman_df.to_excel('minuman.xlsx', index=False)
+    return minuman_df
+
+# Fungsi untuk memperbarui data makanan
+def perbarui_makanan(makanan_df, index, kolom, nilai):
+    makanan_df.at[index, kolom] = nilai
+    makanan_df.to_excel('makanan.xlsx', index=False)
+    return makanan_df
+
+# Fungsi untuk memperbarui data minuman
+def perbarui_minuman(minuman_df, index, kolom, nilai):
+    minuman_df.at[index, kolom] = nilai
+    minuman_df.to_excel('minuman.xlsx', index=False)
+    return minuman_df
+
+# Fungsi untuk menghapus data makanan
+def hapus_makanan(makanan_df, index):
+    makanan_df = makanan_df.drop(index)
+    makanan_df.to_excel('makanan.xlsx', index=False)
+    return makanan_df
+
+# Fungsi untuk menghapus data minuman
+def hapus_minuman(minuman_df, index):
+    minuman_df = minuman_df.drop(index)
+    minuman_df.to_excel('minuman.xlsx', index=False)
+    return minuman_df
+
+# Contoh penggunaan
+makanan_df, minuman_df = baca_data()
+
+while True:
+    print("\nMenu:")
+    print("1. Tampilkan Daftar Makanan")
+    print("2. Tampilkan Daftar Minuman")
+    print("3. Tambah Makanan")
+    print("4. Tambah Minuman")
+    print("5. Perbarui Makanan")
+    print("6. Perbarui Minuman")
+    print("7. Hapus Makanan")
+    print("8. Hapus Minuman")
+    print("9. Keluar")
+    pilihan = input("Pilih opsi (1/2/3/4/5/6/7/8/9): ")
+
+    if pilihan == '1':
+        tampilkan_makanan(makanan_df)
+    elif pilihan == '2':
+        tampilkan_minuman(minuman_df)
+    elif pilihan == '3':
+        nama = input("Masukkan nama makanan: ")
+        harga = float(input("Masukkan harga makanan: "))
+        makanan_df = tambah_makanan(makanan_df, nama, harga)
+    elif pilihan == '4':
+        nama = input("Masukkan nama minuman: ")
+        harga = float(input("Masukkan harga minuman: "))
+        minuman_df = tambah_minuman(minuman_df, nama, harga)
+    elif pilihan == '5':
+        tampilkan_makanan(makanan_df)
+        index = int(input("Masukkan indeks makanan yang akan diperbarui: "))
+        kolom = input("Masukkan nama kolom yang akan diperbarui: ")
+        nilai = input("Masukkan nilai baru: ")
+        makanan_df = perbarui_makanan(makanan_df, index, kolom, nilai)
+    elif pilihan == '6':
+        tampilkan_minuman(minuman_df)
+        index = int(input("Masukkan indeks minuman yang akan diperbarui: "))
+        kolom = input("Masukkan nama kolom yang akan diperbarui: ")
+        nilai = input("Masukkan nilai baru: ")
+        minuman_df = perbarui_minuman(minuman_df, index, kolom, nilai)
+    elif pilihan == '7':
+        tampilkan_makanan(makanan_df)
+        index = int(input("Masukkan indeks makanan yang akan dihapus: "))
+        makanan_df = hapus_makanan(makanan_df, index)
+    elif pilihan == '8':
+        tampilkan_minuman(minuman_df)
+        index = int(input("Masukkan indeks minuman yang akan dihapus: "))
+        minuman_df = hapus_minuman(minuman_df, index)
+    elif pilihan == '9':
+        break
+        

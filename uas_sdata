@@ -1,0 +1,100 @@
+from prettytable import PrettyTable
+
+class Converter:
+    @staticmethod
+    def decimal_to_binary(decimal):
+        return f"{bin(decimal)[2:]} (biner)"
+
+    @staticmethod
+    def decimal_to_octal(decimal):
+        return f"{oct(decimal)[2:]} (oktal)"
+
+    @staticmethod
+    def decimal_to_hexadecimal(decimal):
+        return f"{hex(decimal)[2:]} (heksadesimal)"
+    
+    @staticmethod
+    def binary_to_octal(binary):
+        decimal = int(str(binary), 2)
+        return f"{oct(decimal)[2:]} (oktal)"
+
+    @staticmethod
+    def binary_to_hexadecimal(binary):
+        decimal = int(str(binary), 2)
+        return f"{hex(decimal)[2:]} (oktal)"
+
+class SistemBilangan:
+    def __init__(self):
+        self.menu = [
+            {'No': 1, 'Pilihan': 'desimal to biner'},
+            {'No': 2, 'Pilihan': 'desimal to oktal'},
+            {'No': 3, 'Pilihan': 'desimal to hexa'}
+        ]
+        self.pilihan = []
+
+    def display_menu(self):
+        print("\n\n\n========================================")
+        print("          SISTEM BILANGAN   ")
+        print("         KALKULATOR SISTEM BILANGAN ")
+        print("========================================")
+        print("        1. Desimal")
+        print("        2. Biner")
+        print("        3. Oktal")
+        print("        2. Hexadesimal")
+        print("        5. Keluar")
+        print("----------------------------------------")
+        
+    #tabel desimal
+    def display_convert_options(self):
+        print("\nKonversi Bilangan:")
+        table = PrettyTable(["No", "Pilihan"])
+        for item in self.menu:
+            table.add_row([item['No'], item['Pilihan']])
+        print(table)
+
+    def convert_decimal(self, number, base):
+        if base == 1:
+            return Converter.decimal_to_binary(number)
+        elif base == 2:
+            return Converter.decimal_to_octal(number)
+        elif base == 3:
+            return Converter.decimal_to_hexadecimal(number)
+        else:
+            return "Basis bilangan tidak valid"
+
+    #milih
+    def process_choice(self, choice):
+        if choice == 1:
+            self.display_convert_options()
+            convert_choice = input("Pilih konversi: ")
+            if convert_choice in ['1', '2', '3']:
+                number = int(input("Masukkan bilangan desimal: "))
+                print(f"Hasil konversi: {self.convert_decimal(number, int(convert_choice))}")
+            else:
+                print("bilangan tidak valid.")
+           
+        elif choice == 2:
+                print("\nProses Converter")
+                print("Terima Kasih")
+
+        else:
+            print("\nPilihan tidak valid. Silakan pilih lagi.")
+            
+def main():
+    menu = SistemBilangan()
+
+    while True:
+        menu.display_menu()
+        choice = input("Pilih kategori: ")
+
+        try:
+            choice = int(choice)
+            if choice in [1, 2]:
+                menu.process_choice(choice)
+            else:
+                print("Pilihan tidak valid. Silakan pilih lagi.")
+        except ValueError:
+            print("Pilihan tidak valid. Silakan pilih lagi.")
+
+if __name__ == "__main__":
+    main()
